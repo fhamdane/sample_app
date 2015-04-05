@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+
+<html lang="fr">
+
+<head id="ctl00_Head1">
+    <title>
+        
+    Title
+
+</title>
+<meta charset="UTF-8">
+</head>
+
+<body>
+<!-- Entre mai et août 1825, Delacroix séjourne à Londres et dans ses environs. Au cours de ce voyage, et comme à son habitude, il emporte un carnet dans lequel il dessine ses impressions. Des 19 feuillets de cet album du voyage en Angleterre, il n’en utilise que six dans ce pays, fixant à l’aquarelle ou au crayon les paysages de la campagne anglaise et les chevaux de l’un de ses hôtes. Le reste du carnet lui servira à Paris pour des études destinées à l’Exécution du doge Marino Faliero 1825 (Londres, Wallace Collection). Delacroix se confie à multiples reprises dans les lettres qu’il envoie à ses amis restés en France. Ses premières impressions sont décevantes : « …en arrivant à Londres mon idée constante était que je me trouverais bien malheureux d’être obligé d’y rester éternellement » (Correspondance, I, p. 154). Peu à peu, sa morosité est tempérée par l’attrait des promenades le long de la Tamise en compagnie de ses amis Thalès et Copley Fielding, des rencontres avec Thomas Lawrence, David Wilkie et Richard Parkes Bonington ; son enthousiasme éclate enfin lors de ses soirées au théâtre : « Les expressions d’admiration manquent pour le génie de Shakespeare qui a inventé Othello et Iago » (Correspondance, I, p. 162). -->
+<textarea id="text" style="margin: 0px; height: 250px; width: 841px;" onclick="">
+La remarque de Parreira définit assez bien le style de Pirlo. Habituellement, un milieu défensif est un joueur physique, rugueux, endurant, travailleur, qui a pour but de récupérer les ballons et de déconstruire le jeu adverse, tandis que l'aspect technique, la responsabilité du jeu et des passes sont dévoués au numéro 10 (ou tout du moins à un ou plusieurs milieux offensifs), placé juste derrière les attaquants. Mais Pirlo allie le positionnement bas d'un milieu récupérateur à un véritable rôle de meneur de jeu. C'est lui qui va être le premier relanceur, tous les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes.</textarea>
+
+
+<!-- les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes. -->
+<button  onclick="button()">
+Valider
+</button>
+<p id="result" style="color:grey;"></p>
+
+<script>
+
+var text=document.getElementById('text').value;
+var list_text=text.split(" ");
+var list_text_insert;
+var list_word_delete=[];
+var list_string_insert=[];
+var list_index_delete=[];
+var list_word_delete_string;
+function button(){
+    var text_insert=document.getElementById('text').value;
+    list_text=text.split(" ");
+    list_text_insert=text_insert.split(" ");
+    var length_text_origin=list_text.length;
+    var length_text_modified=list_text_insert.length;
+
+    list_string_insert=[];
+    list_word_delete=[];
+    list_index_delete=[];
+    list_word_delete_string=[];
+    var count=0;
+    var gap=0;//decalage du texte modifié
+    var gap2=0;//decalage du texte d'origine
+    for(var j=0; j<Math.max(length_text_origin,length_text_modified);j++){
+        var pos_X=-1;
+        if(list_text[j+gap2]!=list_text_insert[j+gap] && typeof list_text[j+gap2]!="undefined"){
+            var k=j;
+            var word_delete="";
+            var first=1;
+            while(pos_X==-1){//on devrait executer cette boucle que lorsqu'on est sûr qu'il s'agit d'une suppression
+                //console.log(list_text[k+gap2]);
+                pos_X=list_text_insert.indexOf(list_text[k+gap2],j+gap);//on cherche par exemple le mot "milieu" dans le texte modifié 
+                console.log("pos_X: "+pos_X);
+                if(pos_X==-1){//si le mot suivant dans list_text n'existe pas dans list_insert c'est qu'il a été supprimé donc il faut chercher le mot suivant
+
+                    list_word_delete.push(k+gap2);//on stocke les mots supprimés
+                    if(first==1)//pour une phrase supprimé on stocke l'indice de son premier mot
+                        list_index_delete.push(k);//on ne rajoute pas gap2 car on list_index_delete stocke des indices pour la list list_text_insert et non list_text
+                    word_delete+=list_text[k+gap2]+" ";
+                    first++;
+                    k++;
+                }
+                else{//si on trouve le mot en question c'est qu'il y a deux possibilités, soit le mot trouvé est en réalité un autre mot et donc le mot en question à été supprimé soit il y eu insertion de mot 
+                   
+                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2])["indexes"];
+                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap])["indexes"];
+                    pos_X=-1;
+                    break;
+
+                }
+                
+                if((k+gap2)>=list_text.length-1){
+                    break;
+                }
+
+            }
+            if(word_delete!="")//insertion des mots supprimés
+                list_word_delete_string.push(word_delete);
+            //ci dessous à modifier 
+            for(var i=j+gap;i<pos_X;i++){//stocke à priori les indices des mots qui on été insérés
+                 list_string_insert.push(i);
+                 //console.log("i :"+i);
+                
+            }
+            gap=list_string_insert.length;
+            gap2=list_word_delete.length;
+           // console.log("list_index_delete: "+list_index_delete.length+"count :"+count);
+            // for(var i=count;i<list_index_delete.length;i++){
+            //     console.log(list_index_delete[i]-gap);
+            //     list_index_delete[i]=list_index_delete[i]-gap;
+            // }
+            if(list_index_delete.length-1==1)
+                console.log(list_index_delete[list_index_delete.length-1])
+            if(word_delete!="")
+                list_index_delete[list_index_delete.length-1]+=gap;
+
+            //-------------------------------------------------------------------------------
+            // pos_X=list_text_insert.indexOf(list_text[j],j+gap)-1;
+            // for(var i=j+gap;i<=pos_X;i++){
+            //      list_string_insert.push(i);
+                
+            // }
+            // gap=list_string_insert.length;
+            count++;
+        }
+
+        else if(typeof list_text[j+gap2]=='undefined'){
+
+            list_string_insert.push(j+gap);
+
+        }
+    
+    }
+
+    var result="";
+    //var list_index_delete=compact_list_num(list_word_delete);
+    var index_word_delete;
+    var word_delete_index=0;
+    for(var k=0;k<list_text_insert.length;k++){
+        index_word_delete=k;
+        // index_word_delete=k;
+        // if(list_word_delete.indexOf(index_word_delete)!=-1){
+        //     while(list_word_delete.indexOf(index_word_delete)!=-1){
+        //        result+='<s><span style="color:red">'+list_text[index_word_delete]+'</span></s>'+" ";
+        //        console.log(list_text[index_word_delete]+" "+"index_word_delete: "+index_word_delete);
+        //        index_word_delete++; 
+        //     }
+            
+        // }
+       
+        if(list_index_delete.indexOf(k)!=-1){
+            //  while(list_word_delete.indexOf(index_word_delete)!=-1){
+            //    result+='<s><span style="color:red">'+list_text[index_word_delete]+'</span></s>'+" ";
+            //    console.log(list_text[index_word_delete]+" "+"index_word_delete: "+index_word_delete);
+            //    index_word_delete++; 
+            // }
+            result+='<s><span style="color:red">'+list_word_delete_string[word_delete_index]+'</span></s>'+" ";
+            word_delete_index++;
+        }
+        if(list_string_insert.indexOf(k)!=-1){
+            result+='<b><span style="color:green">'+list_text_insert[k]+'</span></b>'+" ";
+        }
+        else{
+            result+=list_text_insert[k]+" ";
+        }
+    }
+    result=document.getElementById('result').innerHTML=result;
+}
+
+
+function compact_list_num (list) {
+    var new_list=[list[0]];
+    for(var k=1;k<=list.length;k++){
+        if(list[k]!=list[k-1]+1){
+            new_list.push(list[k-1]);
+        }
+    }
+    return new_list;
+}
+
+function indexOfCount (list, element) {
+    if (list.indexOf(element)==-1){
+        return -1;
+    }
+
+    var hash={
+        "indexes":[]
+    };
+    for(var j=0; j<list.length;j++){
+        if(list[j]==element){
+            hash["indexes"].push(j);
+
+        }   
+    }
+    return hash;
+}
+
+// function doublon_word (list) {
+//     return {
+//         "le":56,
+//         "pirlo":2,
+
+//     }
+// }
+</script>
+
+
+</body>
+
+</html>
