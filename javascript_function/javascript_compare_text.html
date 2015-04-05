@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>My Title</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+</script>
+
+</head>
+<body>
+<textarea id="text" style="margin: 0px; height: 250px; width: 841px;" onclick="">Entre mai et août 1825 , Delacroix séjourne à Londres et dans ses environs. 1825 Au cours de ce voyage, et comme à son habitude, il emporte un carnet dans lequel il dessine ses impressions. Des 19 feuillets de cet album du voyage en Angleterre, il n’en utilise que six dans ce pays, fixant à l’aquarelle ou au crayon les paysages de la campagne anglaise et les chevaux de l’un de ses hôtes. Le reste du carnet lui servira à Paris pour des études destinées à l’Exécution du doge Marino Faliero 1825 (Londres, Wallace Collection). Delacroix se confie à multiples reprises dans les lettres qu’il envoie à ses amis restés en France. Ses premières impressions sont décevantes : « …en arrivant à Londres mon idée constante était que je me trouverais bien malheureux d’être obligé d’y rester éternellement » (Correspondance, I, p. 154). Peu à peu, sa morosité est tempérée par l’attrait des promenades le long de la Tamise en compagnie de ses amis Thalès et Copley Fielding, des rencontres avec Thomas Lawrence, David Wilkie et Richard Parkes Bonington ; son enthousiasme éclate enfin lors de ses soirées au théâtre : « Les expressions d’admiration manquent pour le génie de Shakespeare qui a inventé Othello et Iago » (Correspondance, I, p. 162).</textarea>
+<button  onclick="button()">
+Valider
+</button>
+<p id="result"></p>
+
+<script>
+
+var text=document.getElementById('text').value;
+
+function button(){
+var text_insert=document.getElementById('text').value;
+var list_text=text.split(" ");
+var list_text_insert=text_insert.split(" ");
+var length_text_origin=list_text.length;
+var length_text_modified=list_text_insert.length;
+
+var list_string_insert=[];
+var pos_X=0;
+var count=0;
+var gap=0;
+for(var j=0; j<Math.max(length_text_origin,length_text_modified);j++){
+    if(list_text[j]!=list_text_insert[j+gap] && typeof list_text[j]!="undefined"){//si les deuc mots ne correspondent pas
+        //on va chercher list_text[j+1] dans list_text_insert puis determiner sa position X dans list_text_insert. donc tout ce qui est entre j et X sont des mots rajoutés
+       //alert("list_text[j] : "+list_text[j]+" list_text_insert[j+dec] : "+list_text_insert[j+gap]);
+        pos_X=list_text_insert.indexOf(list_text[j],j+gap)-1;
+        for(var i=j+gap;i<=pos_X;i++){
+             list_string_insert.push(i);
+            //alert(list_text_insert[i]);
+        }
+        gap=list_string_insert.length;
+    }
+   // alert(j);
+    else if(typeof list_text[j]=='undefined'){//signifie que des caracteres ont été rajoutés à la fin du texte
+
+        list_string_insert.push(j+gap);
+        //alert("(ELSE IF) j :"+j+" "+list_text[j]);
+        //alert("ok");
+    }
+    else{
+       // alert("(ELSE) j :"+j+" "+list_text[j]);
+    }
+    // else{
+    //     alert(list_text[j]+j+" "+list_text_insert[j+list_string_insert.length]+(j+list_string_insert.length));
+    // }
+count++;
+}
+
+var result="";
+for(var k=0;k<list_text_insert.length;k++){
+    if(list_string_insert.indexOf(k)!=-1){
+        result+='<span style="color:green">'+list_text_insert[k]+'</span>'+" ";
+    }
+    else{
+        result+=list_text_insert[k]+" ";
+    }
+}
+result=document.getElementById('result').innerHTML=result;
+}
+</script>
+
+</body>
+</html>
