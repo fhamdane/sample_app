@@ -54,10 +54,12 @@ function button(){
             var k=j;
             var word_delete="";
             var first=1;
+           
             while(pos_X==-1){//on devrait executer cette boucle que lorsqu'on est sûr qu'il s'agit d'une suppression
                 //console.log(list_text[k+gap2]);
                 pos_X=list_text_insert.indexOf(list_text[k+gap2],j+gap);//on cherche par exemple le mot "milieu" dans le texte modifié 
-                console.log("pos_X: "+pos_X);
+                //console.log("pos_X: "+pos_X);
+                var notdoublon=false;
                 if(pos_X==-1){//si le mot suivant dans list_text n'existe pas dans list_insert c'est qu'il a été supprimé donc il faut chercher le mot suivant
 
                     list_word_delete.push(k+gap2);//on stocke les mots supprimés
@@ -66,23 +68,29 @@ function button(){
                     word_delete+=list_text[k+gap2]+" ";
                     first++;
                     k++;
+                    notdoublon=true;
                 }
                 else{//si on trouve le mot en question c'est qu'il y a deux possibilités, soit le mot trouvé est en réalité un autre mot et donc le mot en question à été supprimé soit il y eu insertion de mot 
                    
                     var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap);
                     var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap],j+gap2);
                     var doublon=false;
-                    // if(list_of_doublon_index_text_modified.length < list_of_doublon_index.length){//il y a forcement eu suppression du mot QUELQUE PART
-                    //     console.log(list_of_doublon_index_text_modified);
-                    //     console.log(list_of_doublon_index);
-                    //     if(first==1)//pour une phrase supprimé on stocke l'indice de son premier mot
-                    //         list_index_delete.push(k);//on ne rajoute pas gap2 car on list_index_delete stocke des indices pour la list list_text_insert et non l
-                    //     word_delete+=list_text[k+gap2]+" ";
-                    //     doublon = true; 
-                    //}
-                    // else{//dans ce cas ce n'est pas forcement une non suppression puisque l'utilisateur pourrait inserer du texte plus loin contenant le même mot
-
-                    // }
+                    if(list_of_doublon_index_text_modified.length < list_of_doublon_index.length){//il y a forcement eu suppression du mot QUELQUE PART
+                        console.log(list_of_doublon_index_text_modified);
+                        console.log(list_of_doublon_index);
+                        list_word_delete.push(k+gap2);
+                        if(first==1)//pour une phrase supprimé on stocke l'indice de son premier mot
+                            list_index_delete.push(k);
+                        word_delete+=list_text[k+gap2]+" ";
+                        first++;
+                        doublon = true;
+                         
+                    }
+                    else{//dans ce cas ce n'est pas forcement une non suppression puisque l'utilisateur pourrait inserer du texte plus loin contenant le même mot
+                        //console.log(list_of_doublon_index_text_modified);
+                        //console.log(list_of_doublon_index);
+                        notdoublon=true;
+                    }
                     // pos_X=-1;
                     // break;
 
@@ -93,16 +101,17 @@ function button(){
                 }
 
             }
+
             if(word_delete!="")//insertion des mots supprimés
                 list_word_delete_string.push(word_delete);
             //ci dessous à modifier
-            // if(!doublon){
+            if(!doublon || notdoublon){
                 for(var i=j+gap;i<pos_X;i++){//stocke à priori les indices des mots qui on été insérés
                     list_string_insert.push(i);
                     //console.log("i :"+i);
                 
                 }
-            // } 
+            } 
      
             gap=list_string_insert.length;
             gap2=list_word_delete.length;
@@ -112,7 +121,7 @@ function button(){
             //     list_index_delete[i]=list_index_delete[i]-gap;
             // }
             if(list_index_delete.length-1==1)
-                console.log(list_index_delete[list_index_delete.length-1])
+                //console.log(list_index_delete[list_index_delete.length-1])
             if(word_delete!="")
                 list_index_delete[list_index_delete.length-1]+=gap;
 
