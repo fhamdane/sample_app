@@ -14,6 +14,7 @@
 
 <body>
 <!-- Entre mai et août 1825, Delacroix séjourne à Londres et dans ses environs. Au cours de ce voyage, et comme à son habitude, il emporte un carnet dans lequel il dessine ses impressions. Des 19 feuillets de cet album du voyage en Angleterre, il n’en utilise que six dans ce pays, fixant à l’aquarelle ou au crayon les paysages de la campagne anglaise et les chevaux de l’un de ses hôtes. Le reste du carnet lui servira à Paris pour des études destinées à l’Exécution du doge Marino Faliero 1825 (Londres, Wallace Collection). Delacroix se confie à multiples reprises dans les lettres qu’il envoie à ses amis restés en France. Ses premières impressions sont décevantes : « …en arrivant à Londres mon idée constante était que je me trouverais bien malheureux d’être obligé d’y rester éternellement » (Correspondance, I, p. 154). Peu à peu, sa morosité est tempérée par l’attrait des promenades le long de la Tamise en compagnie de ses amis Thalès et Copley Fielding, des rencontres avec Thomas Lawrence, David Wilkie et Richard Parkes Bonington ; son enthousiasme éclate enfin lors de ses soirées au théâtre : « Les expressions d’admiration manquent pour le génie de Shakespeare qui a inventé Othello et Iago » (Correspondance, I, p. 162). -->
+
 <textarea id="text" style="margin: 0px; height: 250px; width: 841px;" onclick="">
 La remarque de Parreira définit assez bien le style de Pirlo. Habituellement, un milieu défensif est un joueur physique, rugueux, endurant, travailleur, qui a pour but de récupérer les ballons et de déconstruire le jeu adverse, tandis que l'aspect technique, la responsabilité du jeu et des passes sont dévoués au numéro 10 (ou tout du moins à un ou plusieurs milieux offensifs), placé juste derrière les attaquants. Mais Pirlo allie le positionnement bas d'un milieu récupérateur à un véritable rôle de meneur de jeu. C'est lui qui va être le premier relanceur, tous les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes.</textarea>
 
@@ -68,26 +69,41 @@ function button(){
                 }
                 else{//si on trouve le mot en question c'est qu'il y a deux possibilités, soit le mot trouvé est en réalité un autre mot et donc le mot en question à été supprimé soit il y eu insertion de mot 
                    
-                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2])["indexes"];
-                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap])["indexes"];
-                    pos_X=-1;
-                    break;
+                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap);
+                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap],j+gap2);
+                    var doublon=false;
+                    // if(list_of_doublon_index_text_modified.length < list_of_doublon_index.length){//il y a forcement eu suppression du mot QUELQUE PART
+                    //     console.log(list_of_doublon_index_text_modified);
+                    //     console.log(list_of_doublon_index);
+                    //     if(first==1)//pour une phrase supprimé on stocke l'indice de son premier mot
+                    //         list_index_delete.push(k);//on ne rajoute pas gap2 car on list_index_delete stocke des indices pour la list list_text_insert et non l
+                    //     word_delete+=list_text[k+gap2]+" ";
+                    //     doublon = true; 
+                    //}
+                    // else{//dans ce cas ce n'est pas forcement une non suppression puisque l'utilisateur pourrait inserer du texte plus loin contenant le même mot
+
+                    // }
+                    // pos_X=-1;
+                    // break;
 
                 }
                 
-                if((k+gap2)>=list_text.length-1){
+                if((k+gap2)>list_text.length-1){
                     break;
                 }
 
             }
             if(word_delete!="")//insertion des mots supprimés
                 list_word_delete_string.push(word_delete);
-            //ci dessous à modifier 
-            for(var i=j+gap;i<pos_X;i++){//stocke à priori les indices des mots qui on été insérés
-                 list_string_insert.push(i);
-                 //console.log("i :"+i);
+            //ci dessous à modifier
+            // if(!doublon){
+                for(var i=j+gap;i<pos_X;i++){//stocke à priori les indices des mots qui on été insérés
+                    list_string_insert.push(i);
+                    //console.log("i :"+i);
                 
-            }
+                }
+            // } 
+     
             gap=list_string_insert.length;
             gap2=list_word_delete.length;
            // console.log("list_index_delete: "+list_index_delete.length+"count :"+count);
@@ -164,21 +180,22 @@ function compact_list_num (list) {
     return new_list;
 }
 
-function indexOfCount (list, element) {
+function indexOfCount (list, element, begin) {
     if (list.indexOf(element)==-1){
-        return -1;
+        return [];
     }
 
-    var hash={
-        "indexes":[]
-    };
-    for(var j=0; j<list.length;j++){
+    // var hash={
+    //     "indexes":[]
+    // };
+    var list_index=[];
+    for(var j=begin; j<list.length;j++){
         if(list[j]==element){
-            hash["indexes"].push(j);
-
+            // hash["indexes"].push(j);
+            list_index.push(j);
         }   
     }
-    return hash;
+    return list_index;
 }
 
 // function doublon_word (list) {
