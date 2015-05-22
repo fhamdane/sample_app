@@ -10,13 +10,27 @@
 
 </title>
 <meta charset="UTF-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<style type="text/css">
+#text{
+      margin: 0px;
+  width: 1126px;
+  height: 256px;
+  border: solid rgb(53, 53, 77) 1px;
+  border-radius: 5px;
+}
+</style>
 </head>
 
 <body>
 <!-- Entre mai et août 1825, Delacroix séjourne à Londres et dans ses environs. Au cours de ce voyage, et comme à son habitude, il emporte un carnet dans lequel il dessine ses impressions. Des 19 feuillets de cet album du voyage en Angleterre, il n’en utilise que six dans ce pays, fixant à l’aquarelle ou au crayon les paysages de la campagne anglaise et les chevaux de l’un de ses hôtes. Le reste du carnet lui servira à Paris pour des études destinées à l’Exécution du doge Marino Faliero 1825 (Londres, Wallace Collection). Delacroix se confie à multiples reprises dans les lettres qu’il envoie à ses amis restés en France. Ses premières impressions sont décevantes : « …en arrivant à Londres mon idée constante était que je me trouverais bien malheureux d’être obligé d’y rester éternellement » (Correspondance, I, p. 154). Peu à peu, sa morosité est tempérée par l’attrait des promenades le long de la Tamise en compagnie de ses amis Thalès et Copley Fielding, des rencontres avec Thomas Lawrence, David Wilkie et Richard Parkes Bonington ; son enthousiasme éclate enfin lors de ses soirées au théâtre : « Les expressions d’admiration manquent pour le génie de Shakespeare qui a inventé Othello et Iago » (Correspondance, I, p. 162). -->
 
-<textarea id="text" style="margin: 0px; height: 250px; width: 841px;" onclick="">
-La remarque de Parreira définit assez bien le style de Pirlo. Habituellement, un milieu défensif est un joueur physique, rugueux, endurant, travailleur, qui a pour but de récupérer les ballons et de déconstruire le jeu adverse, tandis que l'aspect technique, la responsabilité du jeu et des passes sont dévoués au numéro 10 (ou tout du moins à un ou plusieurs milieux offensifs), placé juste derrière les attaquants. Mais Pirlo allie le positionnement bas d'un milieu récupérateur à un véritable rôle de meneur de jeu. C'est lui qui va être le premier relanceur, tous les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes.C'est ainsi que Pirlo peut exprimer toutes ses qualités. Il combine une vision de jeu affûtée, que ce soit offensivement pour délivrer les ballons, ou défensivement pour intercepter les balles adverses, à une exceptionnelle précision des deux pieds, en particulier pour effectuer de formidables passes, ou encore placer des tirs à longue distance. Enfin, il ajoute à sa panoplie une rare précision sur coup franc et penalty. S'il peut manquer parfois de l'impact physique nécessaire dans cette zone de jeu, son placement compense en partie cette lacune et il pouvait compter sur son ex-coéquipier Gennaro Gattuso et ses interventions musclées pour l'épauler dans ce domaine lors de son passage à Milan. D'ailleurs Gattuso a parfois été nommé, de façon sympathique, le « Garde du Corps » de Pirlo.</textarea>
+<div id="the_text">
+La remarque de Parreira définit assez bien le style de Pirlo. Habituellement, un milieu défensif est un joueur physique, rugueux, endurant, travailleur, qui a pour but de récupérer les ballons et de déconstruire le jeu adverse, tandis que l'aspect technique, la responsabilité du jeu et des passes sont dévoués au numéro 10 (ou tout du moins à un ou plusieurs milieux offensifs), placé juste derrière les attaquants. Mais Pirlo allie le positionnement bas d'un milieu récupérateur à un véritable rôle de meneur de jeu. C'est lui qui va être le premier relanceur, tous les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes.C'est ainsi que Pirlo peut exprimer toutes ses qualités. Il combine une vision de jeu affûtée, que ce soit offensivement pour délivrer les ballons, ou défensivement pour intercepter les balles adverses, à une exceptionnelle précision des deux pieds, en particulier pour effectuer de formidables passes, ou encore placer des tirs à longue distance. Enfin, il ajoute à sa panoplie une rare précision sur coup franc et penalty. S'il peut manquer parfois de l'impact physique nécessaire dans cette zone de jeu, son placement compense en partie cette lacune et il pouvait compter sur son ex-coéquipier Gennaro Gattuso et ses interventions musclées pour l'épauler dans ce domaine lors de son passage à Milan. D'ailleurs Gattuso a parfois été nommé, de façon sympathique, le « Garde du Corps » de Pirlo.
+</div>
+<button id="modifie_text" onclick="modifie_text()">Modifier le texte</button>
+<!-- <textarea id="text" style="margin: 0px; height: 250px; width: 841px;" onclick="" style="display:none;">
+</textarea> -->
 
 
 <!-- les ballons ressortis de la défense vont en premier lieu passer par lui. Dès lors, il va transmettre de façon courte à ses milieux pour construire du jeu court et dans les intervalles, mais il peut également temporiser en jouant latéralement, ou encore jouer long, que ce soit avec ballon au-dessus de la défense pour un attaquant parti à la limite du hors-jeu, ou encore une transversale millimétrée pour un arrière latéral monté aux avants postes. -->
@@ -27,13 +41,29 @@ Valider
 
 <script>
 
-var text=document.getElementById('text').value;
+var text=document.getElementById('the_text').innerText;
 var list_text=text.split(" ");
 var list_text_insert;
 var list_word_delete=[];
 var list_string_insert=[];
 var list_index_delete=[];
 var list_word_delete_string;
+
+function modifie_text () {
+    var e = document.getElementById('the_text');
+        var d = document.createElement('textarea');
+        d.innerText = e.innerText;      
+        e.parentNode.insertBefore(d, e);
+        e.parentNode.removeChild(e);
+        d.id="text";
+        d.class="textarea_style";
+        $('#modifie_text').hide();
+// d.style.width='400px';
+// d.style.heigth='800px';
+        // class="form-control" rows="3"
+        // d.class="form-control";
+        //$('#text').addClass("form-control");
+}
 function button(){
     var text_insert=document.getElementById('text').value;
     list_text=text.split(" ");
