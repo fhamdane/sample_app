@@ -48,6 +48,7 @@ var list_word_delete=[];
 var list_string_insert=[];
 var list_index_delete=[];
 var list_word_delete_string;
+var dic_text={"word":"","number":1};
 
 function modifie_text () {
     var e = document.getElementById('the_text');
@@ -199,11 +200,11 @@ function button(){
             //    console.log(list_text[index_word_delete]+" "+"index_word_delete: "+index_word_delete);
             //    index_word_delete++; 
             // }
-            result+='<s><span style="color:red">'+list_word_delete_string[word_delete_index]+'</span></s>'+" ";
+            result+='<s><span style="color:red;font-weight: bold;">'+list_word_delete_string[word_delete_index]+'</span></s>'+" ";
             word_delete_index++;
         }
         if(list_string_insert.indexOf(k)!=-1){
-            result+='<b><span style="color:green">'+list_text_insert[k]+'</span></b>'+" ";
+            result+='<b><span style="color:green; font-weight: bold;">'+list_text_insert[k]+'</span></b>'+" ";
         }
         else{
             result+=list_text_insert[k]+" ";
