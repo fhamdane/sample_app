@@ -58,7 +58,8 @@ function modifie_text () {
         e.parentNode.removeChild(e);
         d.id="text";
         d.class="textarea_style";
-        $('#modifie_text').hide();
+        //$('#modifie_text').hide();
+        document.getElementById("modifie_text").style.display="none";
 // d.style.width='400px';
 // d.style.heigth='800px';
         // class="form-control" rows="3"
@@ -82,8 +83,8 @@ function button(){
     for(var j=0; j<Math.max(length_text_origin,length_text_modified);j++){
         var pos_X=-1;
         if(list_text[j+gap2]!=list_text_insert[j+gap] && typeof list_text[j+gap2]!="undefined"){
-            console.log(list_text[j+gap2]);
-            console.log(list_text_insert[j+gap]);
+            //console.log(list_text[j+gap2]);
+            //console.log(list_text_insert[j+gap]);
             var k=j;
             var word_delete="";
             var first=1;
@@ -102,18 +103,30 @@ function button(){
                     first++;
                     k++;
                     notdoublon=true;
+                    //alert("if");
                 }
                 else{//si on trouve le mot en question c'est qu'il y a deux possibilités, soit le mot trouvé est en réalité un autre mot et donc le mot en question à été supprimé soit il y eu insertion de mot 
-                   
-                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap);
-                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap],j+gap2);
+                    //alert("else");
+                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap-1);
+                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap2],j+gap2-1);
+                    if(list_text[k+gap2]=="et"){
+                        console.log(list_of_doublon_index_text_modified+"  "+list_text[k+gap2]+(k+gap2));
+                        console.log(list_of_doublon_index+"  "+list_text[k+gap]+(k+gap));
+                    }
+                    
                     var doublon=false;
                     if(list_of_doublon_index_text_modified.length < list_of_doublon_index.length){//il y a forcement eu suppression du mot QUELQUE PART
-                        console.log(list_of_doublon_index_text_modified);
-                        console.log(list_of_doublon_index);
+                        //console.log(list_of_doublon_index_text_modified);
+                       // console.log(list_of_doublon_index);
+                        //alert("ok");
                         list_word_delete.push(k+gap2);//k+gap2=13
-                        if(first==1)//pour une phrase supprimé on stocke l'indice de son premier mot
-                            list_index_delete.push(k);
+                        //Manque un code qui traite de l'endroit où a été supprimé le mot
+                        //*****
+                        if(first==1){//pour une phrase supprimé on stocke l'indice de son premier mot
+                           list_index_delete.push(k);
+
+                        }
+                        //alert("first: "+first); 
                         word_delete+=list_text[k+gap2]+" ";
                         first++;
                         doublon = true;
@@ -240,6 +253,29 @@ function indexOfCount (list, element, begin) {
         }   
     }
     return list_index;
+}
+
+function countDoublonWord (text) {
+    var list=[];
+    var list_text=text.split(" ");
+    for (var i=0; i<list_text.length;i++){
+        k=0;
+        list.push({"word":list_text[i],"counts":0});
+        while(k<list_text.length){
+            if(list_text.indexOf(list_text[i],k)!=-1){//c'est que le mot est trouvé
+                k=list_text.indexOf(list_text[i],k);
+                k++;
+                list[list.length-1]["counts"]+=1;
+            }
+            else{
+                break;
+            }   
+             
+        }
+       
+    }
+    return list;
+
 }
 
 // function doublon_word (list) {
