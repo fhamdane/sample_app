@@ -107,11 +107,11 @@ function button(){
                 }
                 else{//si on trouve le mot en question c'est qu'il y a deux possibilités, soit le mot trouvé est en réalité un autre mot et donc le mot en question à été supprimé soit il y eu insertion de mot 
                     //alert("else");
-                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap-1);
-                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap2],j+gap2-1);
+                    var list_of_doublon_index_text_modified = indexOfCount(list_text_insert,list_text[k+gap2],j+gap);
+                    var list_of_doublon_index = indexOfCount(list_text,list_text[k+gap2],j+gap2);
                     if(list_text[k+gap2]=="et"){
                         console.log(list_of_doublon_index_text_modified+"  "+list_text[k+gap2]+(k+gap2));
-                        console.log(list_of_doublon_index+"  "+list_text[k+gap]+(k+gap));
+                        console.log(list_of_doublon_index+"  "+list_text[k+gap2]+(k+gap2));
                     }
                     
                     var doublon=false;
